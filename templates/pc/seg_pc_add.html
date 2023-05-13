@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include 'admin/common/header.html' %}
+    <style>
+        .pear-container {
+            background-color: white;
+        }
+
+        body {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-upload-drag" id="drug_upload" style="align-content: center;height: 1500px;width: 100%">
+  <i class="layui-icon" style="font-size: 200px;color: #8497B0"></i>
+  <p style="font-size: 20px; color: #8497B0">支持批量拖拽待检测数据到此处</p>
+{#  <div class="layui-hide" id="uploadDemoView">#}
+{#    <hr>#}
+{#    <img src="" alt="上传成功后渲染" style="max-width: 196px">#}
+{#  </div>#}
+</div>
+{#<div class="layui-row layui-col-space15">#}
+{#    <div class="layui-col-md12">#}
+{#        <div class="layui-card">#}
+{#            <div class="layui-tab-content">#}
+{#                <fieldset class="layui-elem-field layui-field-title">#}
+{#                    <legend>新增点云</legend>#}
+{#                </fieldset>#}
+{#                <form class="layui-form edit-form">#}
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">#}
+{#                            新增点云#}
+{#                        </label>#}
+{#                        <button type="button" class="layui-btn layui-btn-normal" id="logo-img">选择点云文件</button>#}
+{#                        <button type="button" class="layui-btn" id="logo-upload-button">开始上传</button>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{% include 'admin/common/footer.html' %}
+
+
+<script>
+    layui.use(['jquery', 'element', 'form', 'upload'], function () {
+        var $ = layui.jquery;
+        var element = layui.element;
+        var form = layui.form;
+        var upload = layui.upload;
+        //选完文件后不自动上传
+          //拖拽上传
+  upload.render({
+    elem: '#drug_upload'
+    ,exts: 'ply'
+    ,url: "{{ url_for('pcFile.upload_seg_pc_proc') }}" //此处用的是第三方的 http 请求演示，实际使用时改成您自己的上传接口即可。
+    ,done: function(res){
+      layer.msg("文件"+'"'+res.data.file_name+'"'+'处理完成，共分割为'+'<span style="font-weight:bold;color: #00feff">'+res.data.num_part+'个部分</span>');
+      {#document.write("<p>"+res.data.class_name+"</p>");#}
+      {#layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.files.file);#}
+      {#console.log(res)#}
+    }
+  });
+    });
+</script>
+</body>
+</html>

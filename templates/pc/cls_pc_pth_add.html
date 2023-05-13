@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include 'admin/common/header.html' %}
+    <style>
+        .pear-container {
+            background-color: white;
+        }
+
+        body {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-tab-content">
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>新增权重</legend>
+                </fieldset>
+                <form class="layui-form edit-form">
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">权重名称</label>#}
+{#                        <input type="text" class="layui-input-block" name="name">#}
+{#                    </div>#}
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">归属模型</label>#}
+{#                        <div class="layui-input-inline" style="margin-left: 110px">#}
+{#                            <select name="modules" lay-verify="required" lay-search="">#}
+{#                                <option value="2">局部和全局感知点云算法</option>#}
+{#                            </select>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">数据集</label>#}
+{#                        <input type="text" class="layui-input-block" name="dataset">#}
+{#                    </div>#}
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">OA</label>#}
+{#                        <input type="text" class="layui-input-block" name="oa">#}
+{#                    </div>#}
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">mAcc</label>#}
+{#                        <input type="text" class="layui-input-block" name="macc">#}
+{#                    </div>#}
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">轮次</label>#}
+{#                        <input type="text" class="layui-input-block" name="epoch">#}
+{#                    </div>#}
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">学习率</label>#}
+{#                        <input type="text" class="layui-input-block" name="lr">#}
+{#                    </div>#}
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">优化器</label>#}
+{#                        <input type="text" class="layui-input-block" name="optimizer">#}
+{#                    </div>#}
+{#                    <div class="layui-form-item">#}
+{#                        <label class="layui-form-label">损失函数</label>#}
+{#                        <input type="text" class="layui-input-block" name="loss_func">#}
+{#                    </div>#}
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">权重文件</label>
+                        <button type="button" class="layui-btn layui-btn-normal" id="select-pth">选择文件</button>
+                        <button type="button" class="layui-btn" id="pth-upload-button">开始上传</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'admin/common/footer.html' %}
+<script>
+    layui.use(['jquery', 'element', 'form', 'upload'], function () {
+        var $ = layui.jquery;
+        var element = layui.element;
+        var form = layui.form;
+        var upload = layui.upload;
+        //选完文件后不自动上传
+        upload.render({
+            elem: '#select-pth'
+            , url: "{{ url_for('pcFile.upload_cls_pc_pth_proc') }}"
+            , auto: false
+            , exts: 'pth'
+            , size: 100000000000
+            , bindAction: '#pth-upload-button'
+            , done: function (res) {
+                if (res.success) {
+                    layer.msg(res.message, {icon: 1, time: 1000}, function () {
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));//关闭当前页
+                        window.parent.location.reload();
+                    });
+                } else {
+                    layer.msg(res.msg, {icon: 2});
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
