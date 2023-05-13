@@ -2,7 +2,7 @@
 <br/>
 <br/>
   <h1 align="center">
-    PointCloudIntelligVis - 点云智能感知和三维可视化系统
+    PointCloudIntelligVis - 新疆大学 - 点云智能感知和三维可视化系统
   </h1>
 
 
